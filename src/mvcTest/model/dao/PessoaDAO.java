@@ -34,8 +34,6 @@ public class PessoaDAO extends ConectionDatabaseDAO {
             System.out.println("Nome: " + p.getsName()
                     + "\nNumero da sorte: " + p.getiLuckyNumber());
         } catch (SQLException ex) {
-            setbHasFail(true);
-            setsFailMessage(Arrays.toString(ex.getStackTrace()));
             Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -67,8 +65,6 @@ public class PessoaDAO extends ConectionDatabaseDAO {
                         Integer.parseInt(Res.getObject("luckyNumber").toString())));
             }
         } catch (SQLException ex) {
-            setbHasFail(true);
-            setsFailMessage(Arrays.toString(ex.getStackTrace()));
         }
         return lst;
     }

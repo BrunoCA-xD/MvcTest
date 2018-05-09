@@ -21,6 +21,7 @@ public class PessoaController2 {
     }
 
     public void send(PessoaVO p) throws MyException {
+        //test
         new PessoaBO().save(p);
 
     }
