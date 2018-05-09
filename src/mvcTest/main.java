@@ -15,10 +15,6 @@ import mvcTest.view.PessoaView2;
 public class main {
 
     public static void main(String[] args) {
-        /*
-        PessoaView tela = new PessoaView();
-        new PessoaController(tela);
-        */
         
         PessoaView2 tela = new PessoaView2();
         tela.setVisible(true);
