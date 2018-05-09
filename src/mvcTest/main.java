@@ -15,7 +15,7 @@ import mvcTest.view.PessoaView2;
 public class main {
 
     public static void main(String[] args) {
-        
+        //test2
         PessoaView2 tela = new PessoaView2();
         tela.setVisible(true);
         tela.setLocationRelativeTo(null);
