@@ -5,8 +5,6 @@
  */
 package mvcTest.model.bo;
 
-import java.sql.SQLException;
-
 /**
  *
  * @author bruno
@@ -19,8 +17,4 @@ public class MyException extends Exception {
     public MyException(String string) {
         super(string);
     }
-    
-    
-    
-
 }

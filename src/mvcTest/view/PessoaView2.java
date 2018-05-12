@@ -6,11 +6,12 @@
 package mvcTest.view;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import mvcTest.controller.PessoaController2;
-import mvcTest.controller.PessoaInterface;
 import mvcTest.model.bo.MyException;
 import mvcTest.model.vo.PessoaVO;
 
@@ -177,7 +178,6 @@ public class PessoaView2 extends javax.swing.JFrame {
             PessoaVO objPeople = new PessoaVO(txtName.getText(), Integer.parseInt(txtLuckyNumber.getText()));
             try {
                 control.send(objPeople);
-
             } catch (MyException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
@@ -188,17 +188,26 @@ public class PessoaView2 extends javax.swing.JFrame {
 
     private void tabpnlStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabpnlStateChanged
         if (tabpnl.getSelectedIndex() == 1) {
-            List<PessoaVO> lst = control.lista();
             DefaultTableModel model = (DefaultTableModel) tblPessoa.getModel();
             while (model.getRowCount() > 0) {
                 model.removeRow(0);
             }
-            lst.forEach((lst1) -> {
-                model.addRow(new Object[]{
-                    lst1.getiCod(),
-                    lst1.getsName(),
-                    lst1.getiLuckyNumber()});
-            });
+            try {
+                List<PessoaVO> lst = control.lista();
+                if (!lst.isEmpty()) {
+
+                    lst.forEach((lst1) -> {
+                        model.addRow(new Object[]{
+                            lst1.getiCod(),
+                            lst1.getsName(),
+                            lst1.getiLuckyNumber()});
+                    });
+                } else {
+                    JOptionPane.showMessageDialog(null, "Não ha dados para exibir!");
+                }
+            } catch (MyException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
 
         }
 
@@ -206,10 +215,14 @@ public class PessoaView2 extends javax.swing.JFrame {
     }//GEN-LAST:event_tabpnlStateChanged
 
     private void btnSeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeeActionPerformed
-        BuscaPessoaView dialog = new BuscaPessoaView(control.lista());
-        dialog.setVisible(true);
+        try {
+            BuscaPessoaView dialog = new BuscaPessoaView(control.lista());
+            dialog.setVisible(true);
 
-        // TODO add your handling code here:
+// TODO add your handling code here:
+        } catch (MyException ex) {
+            Logger.getLogger(PessoaView2.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnSeeActionPerformed
 
     private void btnLeaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLeaveActionPerformed
