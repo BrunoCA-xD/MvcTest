@@ -5,7 +5,6 @@
  */
 package mvcTest.view;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,7 +12,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import mvcTest.controller.PessoaController2;
-import mvcTest.controller.PessoaInterface;
 import mvcTest.model.bo.MyException;
 import mvcTest.model.vo.PessoaVO;
 
@@ -179,9 +177,7 @@ public class PessoaView2 extends javax.swing.JFrame {
         if (new Praticidade().fieldsFilled(pnlRoot)) {
             PessoaVO objPeople = new PessoaVO(txtName.getText(), Integer.parseInt(txtLuckyNumber.getText()));
             try {
-
                 control.send(objPeople);
-
             } catch (MyException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }

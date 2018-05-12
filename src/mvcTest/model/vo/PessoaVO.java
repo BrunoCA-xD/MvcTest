@@ -16,6 +16,7 @@ public class PessoaVO {
         this.sName = sName;
         this.iLuckyNumber = iLuckyNumber;
     }
+    
     public PessoaVO(String sName, int iLuckyNumber) {
         this.sName = sName;
         this.iLuckyNumber = iLuckyNumber;

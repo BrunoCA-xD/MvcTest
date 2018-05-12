@@ -38,11 +38,10 @@ public class PessoaDAO extends ConectionDatabaseDAO {
 
     }
 
-    public List<PessoaVO> lista() throws MyException {
+    public List<PessoaVO> listar() throws MyException {
         List<PessoaVO> lst = new ArrayList<>();
         try {
             Res = Stm.executeQuery("SELECT * FROM pessoa;");
-
             while (Res.next()) {
                 lst.add(new PessoaVO(Integer.parseInt(Res.getString("id")),
                         Res.getObject("name").toString(),
