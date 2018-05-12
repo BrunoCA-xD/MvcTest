@@ -26,7 +26,7 @@ public class PessoaController2 {
 
     }
 
-    public List<PessoaVO> lista() {
+    public List<PessoaVO> lista() throws MyException {
         return new PessoaBO().lista();
 
     }

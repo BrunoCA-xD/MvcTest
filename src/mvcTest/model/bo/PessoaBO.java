@@ -5,6 +5,7 @@
  */
 package mvcTest.model.bo;
 
+import java.util.ArrayList;
 import java.util.List;
 import mvcTest.model.dao.PessoaDAO;
 import mvcTest.model.vo.PessoaVO;
@@ -23,9 +24,8 @@ public class PessoaBO {
         //new PessoaDAO().list();
     }
 
-    public List<PessoaVO> lista() {
-        List l = null;
-        return l;
-//return new PessoaDAO().lista();
+    public List<PessoaVO> lista() throws MyException {
+        List<PessoaVO> lst = new PessoaDAO().lista();
+        return lst;
     }
 }
