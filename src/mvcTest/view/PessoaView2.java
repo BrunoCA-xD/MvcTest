@@ -221,7 +221,7 @@ public class PessoaView2 extends javax.swing.JFrame {
 
 // TODO add your handling code here:
         } catch (MyException ex) {
-            Logger.getLogger(PessoaView2.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }//GEN-LAST:event_btnSeeActionPerformed
 
