@@ -31,6 +31,9 @@ public class BuscaPessoaView extends JDialog {
     private JButton btnConfirm;
     private JButton btnCancel;
 
+    public BuscaPessoaView() {
+    }
+
     public BuscaPessoaView(List<PessoaVO> lst) {
         setSize(322, 223);
         setUndecorated(true);
@@ -39,6 +42,20 @@ public class BuscaPessoaView extends JDialog {
         init();
         loadData(lst);
 
+    }
+    PessoaVO objPessoa = null;
+
+    public PessoaVO listagem(List<PessoaVO> lst) {
+
+        setSize(322, 223);
+        setUndecorated(true);
+        setLocationRelativeTo(null);
+        setModal(true);
+        init();
+
+        loadData(lst);
+        setVisible(true);
+        return objPessoa;
     }
 
     private void init() {
@@ -107,6 +124,13 @@ public class BuscaPessoaView extends JDialog {
     }
 
     private void btnConfirmClicked(ActionEvent ae) {
+        int iRow = tblPessoa.getSelectedRow();
+        if (iRow > -1) {
+            objPessoa = new PessoaVO(Integer.parseInt(tblPessoa.getValueAt(iRow, 0).toString()),
+                    tblPessoa.getValueAt(iRow, 1).toString(),
+                    Integer.parseInt(tblPessoa.getValueAt(iRow, 2).toString()));
+        }
+        this.dispose();
 
     }
 

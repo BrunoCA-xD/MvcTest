@@ -27,4 +27,9 @@ public class PessoaBO {
         List<PessoaVO> lst = new PessoaDAO().listar();
         return lst;
     }
+
+    public List<PessoaVO> lista(String sSearch) throws MyException {
+        List<PessoaVO> lst = new PessoaDAO().listar(sSearch);
+        return lst;
+    }
 }

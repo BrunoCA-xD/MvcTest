@@ -5,12 +5,18 @@
  */
 package mvcTest.view;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.JTextComponent;
 import mvcTest.controller.PessoaController2;
 import mvcTest.model.bo.MyException;
 import mvcTest.model.vo.PessoaVO;
@@ -22,6 +28,7 @@ import mvcTest.model.vo.PessoaVO;
 public class PessoaView2 extends javax.swing.JFrame {
 
     PessoaController2 control = new PessoaController2();
+    List<PessoaVO> lst = new ArrayList<>();
 
     /**
      * Creates new form PessoaView
@@ -29,7 +36,83 @@ public class PessoaView2 extends javax.swing.JFrame {
     public PessoaView2() {
         initComponents();
         setPreferredSize(new java.awt.Dimension(314, 364));
+        init();
 
+    }
+
+    private void init() {
+
+        txtSearch.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                int iSearchLength = txtSearch.getText().trim().length();
+                if (iSearchLength == 1) {
+                    try {
+                        lst = control.lista(txtSearch.getText());
+                    } catch (MyException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    }
+                } else {
+                    lst.forEach((l) -> {
+                        if (l.getsName().subSequence(0, iSearchLength).equals(txtSearch.getText())) {
+                            System.out.println("DEU CERTO \n" + l.getsName() + "\n");
+
+                        }
+
+                    });
+                }
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                changedUpdate(e);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                changedUpdate(e);
+            }
+
+        });
+       DefaultComboBoxModel cboModel = (DefaultComboBoxModel) cboSearch.getModel();
+        JTextComponent tc = (JTextComponent) cboSearch.getEditor().getEditorComponent();
+        tc.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                int iSearchLength = tc.getText().trim().length();
+                if (iSearchLength == 1) {
+                    try {
+                        lst = control.lista(tc.getText());
+                        tc.getDocument().removeDocumentListener(this);
+                        lst.forEach((l) -> {
+                            cboModel.addElement(l.getsName());
+
+                        });
+                    } catch (MyException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    }
+                } else {
+                    lst.forEach((l) -> {
+                        if (l.getsName().subSequence(0, iSearchLength).equals(tc.getText())) {
+                            System.out.println("DEU CERTO \n" + l.getsName() + "\n");
+
+                        }
+
+                    });
+                }
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                System.out.println("disparou");
+                changedUpdate(e);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                changedUpdate(e);
+            }
+        });
     }
 
     /**
@@ -54,6 +137,11 @@ public class PessoaView2 extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPessoa = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        txtSearch = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
+        cboSearch = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(310, 356));
@@ -166,6 +254,61 @@ public class PessoaView2 extends javax.swing.JFrame {
 
         tabpnl.addTab("tab2", jPanel1);
 
+        jLabel4.setText("Pesquisar por nome");
+
+        btnSearch.setText("Pesquisar");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
+        cboSearch.setEditable(true);
+        cboSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecionar" }));
+        cboSearch.setSelectedIndex(-1);
+        cboSearch.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                cboSearchInputMethodTextChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cboSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(72, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSearch)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnSearch)
+                .addGap(26, 26, 26)
+                .addComponent(cboSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(128, Short.MAX_VALUE))
+        );
+
+        tabpnl.addTab("tab3", jPanel2);
+
         getContentPane().add(tabpnl, "card3");
 
         pack();
@@ -216,8 +359,10 @@ public class PessoaView2 extends javax.swing.JFrame {
 
     private void btnSeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeeActionPerformed
         try {
-            BuscaPessoaView dialog = new BuscaPessoaView(control.lista());
-            dialog.setVisible(true);
+            PessoaVO objSelected = new BuscaPessoaView().listagem(control.lista());
+            if (objSelected != null) {
+                System.out.println(objSelected.getsName());
+            }
 
 // TODO add your handling code here:
         } catch (MyException ex) {
@@ -230,6 +375,28 @@ public class PessoaView2 extends javax.swing.JFrame {
 
         // TODO add your handling code here:
     }//GEN-LAST:event_btnLeaveActionPerformed
+    private void summonChooseScreen() {
+        try {
+            PessoaVO objSelected = new BuscaPessoaView().listagem(control.lista(txtSearch.getText()));
+            if (objSelected != null) {
+                System.out.println(objSelected.getsName());
+            }
+
+// TODO add your handling code here:
+        } catch (MyException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+
+        summonChooseScreen();// TODO add your handling code here:
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void cboSearchInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_cboSearchInputMethodTextChanged
+        System.out.println("aa");
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboSearchInputMethodTextChanged
     /**
      * @param args the command line arguments
      */
@@ -244,16 +411,24 @@ public class PessoaView2 extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PessoaView2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PessoaView2.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PessoaView2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PessoaView2.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PessoaView2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PessoaView2.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PessoaView2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PessoaView2.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -268,18 +443,23 @@ public class PessoaView2 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLeave;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnSee;
     private javax.swing.JButton btnSend;
+    private javax.swing.JComboBox<String> cboSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlRoot;
     private javax.swing.JTabbedPane tabpnl;
     private javax.swing.JTable tblPessoa;
     private javax.swing.JTextField txtLuckyNumber;
     private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 
     public javax.swing.JButton getBtnSend() {

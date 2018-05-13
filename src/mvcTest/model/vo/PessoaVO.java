@@ -11,12 +11,15 @@ package mvcTest.model.vo;
  */
 public class PessoaVO {
 
-    public PessoaVO(int iCod,String sName, int iLuckyNumber) {
+    public PessoaVO() {
+    }
+
+    public PessoaVO(int iCod, String sName, int iLuckyNumber) {
         this.iCod = iCod;
         this.sName = sName;
         this.iLuckyNumber = iLuckyNumber;
     }
-    
+
     public PessoaVO(String sName, int iLuckyNumber) {
         this.sName = sName;
         this.iLuckyNumber = iLuckyNumber;

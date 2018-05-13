@@ -31,4 +31,9 @@ public class PessoaController2 {
 
     }
 
+    public List<PessoaVO> lista(String sSearch) throws MyException {
+        return new PessoaBO().lista(sSearch);
+
+    }
+
 }

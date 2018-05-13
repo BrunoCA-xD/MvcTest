@@ -52,4 +52,20 @@ public class PessoaDAO extends ConectionDatabaseDAO {
         }
         return lst;
     }
+
+    public List<PessoaVO> listar(String sSearch) throws MyException {
+        List<PessoaVO> lst = new ArrayList<>();
+        
+        try {
+            Res = Stm.executeQuery("SELECT * FROM pessoa where name like '"+sSearch +"%';");
+            while (Res.next()) {
+                lst.add(new PessoaVO(Integer.parseInt(Res.getString("id")),
+                        Res.getObject("name").toString(),
+                        Integer.parseInt(Res.getObject("luckyNumber").toString())));
+            }
+        } catch (SQLException ex) {
+            throw new MyException(sMsgError);
+        }
+        return lst;
+    }
 }
