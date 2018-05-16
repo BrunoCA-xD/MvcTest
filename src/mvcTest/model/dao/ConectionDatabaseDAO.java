@@ -10,10 +10,10 @@ import mvcTest.model.bo.MyException;
 
 public class ConectionDatabaseDAO {
 
-    public Connection Con = null;
-    public Statement Stm = null;
-    public ResultSet Res = null;
-    public PreparedStatement Cmd = null;
+    protected Connection Con = null;
+    protected Statement Stm = null;
+    protected ResultSet Res = null;
+    protected PreparedStatement Cmd = null;
 
     public ConectionDatabaseDAO() throws MyException {
         try {
